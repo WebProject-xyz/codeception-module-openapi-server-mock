@@ -1,0 +1,13 @@
+actor: AcceptanceTester
+modules:
+    enabled:
+        - REST:
+            depends: PhpBrowser
+            url: http://localhost:8080/
+        - PhpBrowser:
+            url: http://localhost:8080/
+        - Asserts
+        - WebProject\Codeception\Module\OpenApiServerMock:
+            port: 8080
+            spec: tests/Support/Data/openapi.yaml
+            waitTimeout: 10

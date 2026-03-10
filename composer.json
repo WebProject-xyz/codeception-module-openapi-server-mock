@@ -1,0 +1,67 @@
+{
+    "name": "webproject-xyz/codeception-module-openapi-server-mock",
+    "description": "Codeception module for PHP OpenAPI Mock Server",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://www.webproject.xyz",
+    "authors": [
+        {
+            "name": "Benjamin Fahl",
+            "email": "ben+github@webproject.xyz",
+            "role": "developer"
+        }
+    ],
+    "require": {
+        "php": "~8.3.0 || ~8.4.0 || ~8.5.0",
+        "codeception/codeception": "^5.0",
+        "symfony/process": "^6.0 || ^7.0 || ^8.0",
+        "webproject-xyz/php-openapi-mock-server": "^1.0"
+    },
+    "suggest": {
+        "codeception/module-phpbrowser": "^4.0.0",
+        "codeception/module-rest": "^3.4.3"
+    },
+    "require-dev": {
+        "codeception/module-asserts": "^3.3.0",
+        "codeception/module-phpbrowser": "^4.0.0",
+        "codeception/module-rest": "^3.4.3",
+        "friendsofphp/php-cs-fixer": "^v3.94.2",
+        "phpstan/phpstan": "^2.1.40",
+        "phpro/grumphp": "^2.19.0",
+        "webproject-xyz/codeception-module-ai-reporter": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "WebProject\\Codeception\\Module\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "WebProject\\Codeception\\Module\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "codeception/c3": true,
+            "composer/package-versions-deprecated": true,
+            "phpro/grumphp": true,
+            "phpstan/extension-installer": true
+        },
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "8.3.0"
+        },
+        "sort-packages": true
+    },
+    "scripts": {
+        "bench": "php -d opcache.enable_cli=1 vendor/bin/phpbench run tests/Benchmark --report=default",
+        "cs:check": "php-cs-fixer fix --allow-risky=yes --sequential --dry-run --diff",
+        "cs:fix": "php-cs-fixer fix --allow-risky=yes --sequential",
+        "rector": "rector process --dry-run",
+        "rector:fix": "rector process",
+        "stan": "phpstan analyse --no-progress",
+        "test": "php -d opcache.enable_cli=1 vendor/bin/codecept run --report",
+        "test:build": "codecept build",
+        "test:coverage": "XDEBUG_MODE=coverage codecept run --coverage --coverage-xml=coverage.xml --xml --report"
+    }
+}
