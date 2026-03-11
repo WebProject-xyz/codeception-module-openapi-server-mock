@@ -54,6 +54,14 @@ class OpenApiServerMock extends Module implements DependsOnModule
 
         if ($this->config['startServer']) {
             $this->validatePath((string) $this->config['path']);
+            $this->validateSpec((string) $this->config['spec']);
+        }
+    }
+
+    private function validateSpec(string $spec): void
+    {
+        if (empty($spec) || !file_exists($spec)) {
+            throw new ModuleConfigException($this, "OpenAPI specification file not found at '{$spec}'.");
         }
     }
 
@@ -119,6 +127,10 @@ class OpenApiServerMock extends Module implements DependsOnModule
 
     protected function startMockServer(): void
     {
+        if ($this->isPortInUse()) {
+            throw new RuntimeException("Port {$this->config['port']} is already in use. Cannot start mock server.");
+        }
+
         $binPath = $this->config['path'] . '/bin/openapi-mock-server';
         if (!file_exists($binPath)) {
             $binPath = $this->config['path'] . '/public/index.php';
@@ -129,8 +141,13 @@ class OpenApiServerMock extends Module implements DependsOnModule
             throw new RuntimeException('PHP executable not found.');
         }
 
+        $specPath = (string) $this->config['spec'];
+        if (file_exists($specPath)) {
+            $specPath = (string) realpath($specPath);
+        }
+
         $command = [$phpBinary, '-S', "{$this->config['host']}:{$this->config['port']}", $binPath];
-        $env     = ['OPENAPI_SPEC' => (string) $this->config['spec']];
+        $env     = ['OPENAPI_SPEC' => $specPath];
 
         $this->process = new Process($command, (string) $this->config['path'], $env);
         $this->process->start();
@@ -139,6 +156,18 @@ class OpenApiServerMock extends Module implements DependsOnModule
             $errorOutput = $this->process->getErrorOutput();
             throw new RuntimeException("Mock server failed to start. Error: {$errorOutput}");
         }
+    }
+
+    private function isPortInUse(): bool
+    {
+        $fp = @fsockopen($this->config['host'], (int) $this->config['port'], $errno, $errstr, 0.1);
+        if ($fp) {
+            fclose($fp);
+
+            return true;
+        }
+
+        return false;
     }
 
     private function waitForServer(): bool

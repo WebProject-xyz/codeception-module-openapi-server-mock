@@ -64,3 +64,15 @@ composer cs:fix             # Fix coding standards
 *   `phpstan.neon`: PHPStan configuration (Level 8).
 *   `.php-cs-fixer.php`: Coding style rules.
 *   `grumphp.yml`: Automation task definitions.
+
+## Lessons Learned & Troubleshooting
+
+### Absolute Path Resolution for OpenAPI Specifications
+The mock server process is started with its own `vendor` directory as the working directory (`cwd`) to facilitate binary execution. This means any relative paths for the `OPENAPI_SPEC` environment variable will be resolved against that library path, leading to `500 Internal Server Error` (CONFIG_ERROR) if the specification is not found.
+- **Rule:** Always resolve the `spec` configuration to an **absolute path** (using `realpath()`) before passing it to the server process.
+
+### Port Availability
+To prevent confusing errors where the mock server seems to be running but does not behave as expected (e.g., if another process is already listening on the same port), the module now performs a pre-start check.
+- **Implementation:** `fsockopen()` is used to verify that the configured port is free before attempting to start the built-in PHP server.
+- **Behavior:** A descriptive `RuntimeException` is thrown if the port is already in use.
+
