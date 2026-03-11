@@ -17,11 +17,25 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/User'
-              example:
-                - id: 1
-                  name: Alice
-                - id: 2
-                  name: Bob
+              examples:
+                default:
+                  value:
+                    - id: 1
+                      name: Alice
+                    - id: 2
+                      name: Bob
+                empty:
+                  value: []
+                single:
+                  value:
+                    - id: 99
+                      name: Zorro
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /users/{id}:
     get:
       summary: Get a user by ID
@@ -96,6 +110,9 @@ components:
           type: integer
         name:
           type: string
+      required:
+        - id
+        - name
     TaskInput:
       type: object
       properties:

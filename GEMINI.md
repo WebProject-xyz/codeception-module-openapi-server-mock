@@ -35,8 +35,9 @@ vendor/bin/codecept build  # Generate Tester actions
 
 ### Testing
 ```bash
-composer test               # Run all tests
+composer test               # Run all tests (Acceptance + Unit)
 vendor/bin/codecept run Acceptance  # Run acceptance tests specifically
+vendor/bin/codecept run Unit        # Run unit tests specifically
 ```
 
 ### Static Analysis and Linting
@@ -60,6 +61,7 @@ composer cs:fix             # Fix coding standards
 
 *   `src/OpenApiServerMock.php`: The main module logic.
 *   `tests/Acceptance/MockServerCest.php`: Main acceptance tests for the module.
+*   `tests/Unit/OpenApiServerMockTest.php`: Unit tests for the module's core logic.
 *   `codeception.yml`: Global Codeception configuration.
 *   `phpstan.neon`: PHPStan configuration (Level 8).
 *   `.php-cs-fixer.php`: Coding style rules.
@@ -75,4 +77,10 @@ The mock server process is started with its own `vendor` directory as the workin
 To prevent confusing errors where the mock server seems to be running but does not behave as expected (e.g., if another process is already listening on the same port), the module now performs a pre-start check.
 - **Implementation:** `fsockopen()` is used to verify that the configured port is free before attempting to start the built-in PHP server.
 - **Behavior:** A descriptive `RuntimeException` is thrown if the port is already in use.
+
+### Unit Testing Patterns
+Unit tests for the `OpenApiServerMock` module are located in `tests/Unit/OpenApiServerMockTest.php`. They focus on:
+- **Initialization & Configuration**: Verifying path auto-detection, validation of the mock server directory, and specification file existence.
+- **Mock Control**: Ensuring that methods like `haveOpenApiMockStatusCode` correctly communicate with dependent modules (`REST`, `PhpBrowser`) by injecting the appropriate HTTP headers.
+- **Isolation**: Using `ModuleContainer` mocks and `ReflectionClass` to test internal logic without requiring a running mock server.
 
