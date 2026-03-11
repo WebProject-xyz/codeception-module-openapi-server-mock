@@ -45,13 +45,16 @@ class MockServerCest
         // Deactivate mock
         $I->setOpenApiMockActive(false);
         $I->haveHttpHeader('Accept', 'application/json');
-        $I->sendGet('/');
 
-        // Root path is handled before 'isActive' check in the middleware
-        // and returns the base status of the mock server.
+        // This should now FAIL to return mocked data
+        // The standalone server returns 500 when no middleware handles the route
+        $I->sendGet('/users');
+        $I->seeResponseCodeIs(500);
+
+        // Root path still works as a health check
+        $I->sendGet('/');
         $I->seeResponseCodeIs(200);
         $I->seeResponseContainsJson(['message' => 'OpenAPI Mock Server is running!']);
-
         $I->setOpenApiMockActive(true);
         $I->sendGet('/users');
         $I->seeResponseCodeIs(200);
