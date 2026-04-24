@@ -18,7 +18,7 @@ jobs:
     with:
       test-matrix: |
         [
-          {"php-version": "8.3", "dependencies": "locked",  "with_coverage": true},
+          {"php-version": "8.3", "dependencies": "locked",  "with_coverage": false},
           {"php-version": "8.4", "dependencies": "highest", "with_coverage": false},
           {"php-version": "8.5", "dependencies": "highest", "with_coverage": false}
         ]
