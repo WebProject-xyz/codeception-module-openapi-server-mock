@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6f415fe0cecf7e4d63356d515c88dc4d",
+    "content-hash": "05e075661dcd24d59480d9c4331eedbc",
     "packages": [
         {
             "name": "behat/gherkin",
@@ -10376,32 +10376,32 @@
         },
         {
             "name": "webproject-xyz/codeception-module-ai-reporter",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WebProject-xyz/codeception-module-ai-reporter.git",
-                "reference": "93706c81a5313093d198ee3ced79ee5c881e5442"
+                "reference": "b69f397b66a0904ea306c50890b2e9d3df9a3dce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WebProject-xyz/codeception-module-ai-reporter/zipball/93706c81a5313093d198ee3ced79ee5c881e5442",
-                "reference": "93706c81a5313093d198ee3ced79ee5c881e5442",
+                "url": "https://api.github.com/repos/WebProject-xyz/codeception-module-ai-reporter/zipball/b69f397b66a0904ea306c50890b2e9d3df9a3dce",
+                "reference": "b69f397b66a0904ea306c50890b2e9d3df9a3dce",
                 "shasum": ""
             },
             "require": {
                 "codeception/codeception": "^5.3.5",
                 "php": "~8.3.0 || ~8.4.0 || ~8.5.0",
-                "webmozart/assert": "^1.12.1 || ^2.1.6"
+                "webmozart/assert": "^1.12.1 || ^2.3.0"
             },
             "require-dev": {
                 "codeception/module-asserts": "^3.3",
-                "friendsofphp/php-cs-fixer": "^3.94.1",
+                "friendsofphp/php-cs-fixer": "^3.95.1",
                 "mockery/mockery": "^1.6.12",
                 "phpstan/extension-installer": "^1.4.3",
-                "phpstan/phpstan": "^2.1.39",
+                "phpstan/phpstan": "^2.1.51",
                 "phpstan/phpstan-webmozart-assert": "^2.0.0",
                 "roave/security-advisories": "dev-latest",
-                "symfony/var-dumper": "^6.4 || ^7.4 || ^8.0"
+                "symfony/var-dumper": "^6.4 || ^7.4.8 || ^8.0"
             },
             "type": "library",
             "autoload": {
@@ -10424,9 +10424,9 @@
             "homepage": "https://www.webproject.xyz",
             "support": {
                 "issues": "https://github.com/WebProject-xyz/codeception-module-ai-reporter/issues",
-                "source": "https://github.com/WebProject-xyz/codeception-module-ai-reporter/tree/1.1.0"
+                "source": "https://github.com/WebProject-xyz/codeception-module-ai-reporter/tree/1.1.1"
             },
-            "time": "2026-03-10T23:12:38+00:00"
+            "time": "2026-04-24T21:07:10+00:00"
         }
     ],
     "aliases": [],
