@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://github.com/WebProject-xyz/codeception-module-openapi-server-mock/compare/1.0.0...1.0.1) (2026-04-24)
+
+### Bug Fixes
+
+* **deps:** bump and update dependencies ([ea895c5](https://github.com/WebProject-xyz/codeception-module-openapi-server-mock/commit/ea895c58255ad665ad144ece27270724192a4bbf))
+
 ## 1.0.0 (2026-03-11)
 
 ### Features
