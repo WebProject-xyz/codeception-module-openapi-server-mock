@@ -12,15 +12,20 @@ use Codeception\Module\REST;
 use function dirname;
 use function fclose;
 use function file_exists;
+use function file_get_contents;
+use function file_put_contents;
 use function fsockopen;
 use function is_dir;
+use function preg_replace;
 use function realpath;
 use ReflectionClass;
 use RuntimeException;
+use function str_starts_with;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 use Throwable;
 use function time;
+use function unlink;
 use function usleep;
 use WebProject\PhpOpenApiMockServer\Middleware\MockMiddleware\OpenApiMockMiddleware;
 
@@ -45,6 +50,8 @@ class OpenApiServerMock extends Module implements DependsOnModule
     ];
 
     protected ?Process $process = null;
+
+    private ?string $routerScript = null;
 
     public function _initialize(): void
     {
@@ -123,6 +130,11 @@ class OpenApiServerMock extends Module implements DependsOnModule
         if ($this->config['stopOnFinish'] && $this->process?->isRunning()) {
             $this->process->stop();
         }
+
+        if (null !== $this->routerScript && file_exists($this->routerScript)) {
+            unlink($this->routerScript);
+            $this->routerScript = null;
+        }
     }
 
     protected function startMockServer(): void
@@ -146,7 +158,9 @@ class OpenApiServerMock extends Module implements DependsOnModule
             $specPath = (string) realpath($specPath);
         }
 
-        $command = [$phpBinary, '-S', "{$this->config['host']}:{$this->config['port']}", $binPath];
+        $routerPath = $this->resolveRouterScript($binPath);
+
+        $command = [$phpBinary, '-S', "{$this->config['host']}:{$this->config['port']}", $routerPath];
         $env     = ['OPENAPI_SPEC' => $specPath];
 
         $this->process = new Process($command, (string) $this->config['path'], $env);
@@ -156,6 +170,30 @@ class OpenApiServerMock extends Module implements DependsOnModule
             $errorOutput = $this->process->getErrorOutput();
             throw new RuntimeException("Mock server failed to start. Error: {$errorOutput}");
         }
+    }
+
+    /**
+     * Resolve the script passed to `php -S`.
+     *
+     * The mock server bin is a CLI entrypoint prefixed with a `#!` shebang. When run as a
+     * built-in-server router the shebang is not reliably stripped across all PHP builds, so it
+     * leaks into the response body and breaks the `declare(strict_types=1)` on the following line
+     * with a fatal error. To stay safe everywhere, emit a shebang-less sibling router next to the
+     * bin (preserving __DIR__ so its relative autoload/config paths keep resolving) and use that.
+     */
+    private function resolveRouterScript(string $binPath): string
+    {
+        $source = (string) file_get_contents($binPath);
+        if (!str_starts_with($source, '#!')) {
+            return $binPath;
+        }
+
+        $stripped     = (string) preg_replace('/^#![^\n]*\n/', '', $source, 1);
+        $routerPath   = dirname($binPath) . '/.openapi-mock-server.router.php';
+        file_put_contents($routerPath, $stripped);
+        $this->routerScript = $routerPath;
+
+        return $routerPath;
     }
 
     private function isPortInUse(): bool
