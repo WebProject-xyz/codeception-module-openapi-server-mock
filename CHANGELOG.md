@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/WebProject-xyz/codeception-module-openapi-server-mock/compare/1.0.1...1.0.2) (2026-07-03)
+
+### Bug Fixes
+
+* **deps:** composer up and bump ([a3d8c03](https://github.com/WebProject-xyz/codeception-module-openapi-server-mock/commit/a3d8c038395503c24fc71c6f958e03614b2e6489))
+* strip shebang from mock server router for php -S ([#15](https://github.com/WebProject-xyz/codeception-module-openapi-server-mock/issues/15)) ([7c69516](https://github.com/WebProject-xyz/codeception-module-openapi-server-mock/commit/7c695164ca5755ae01e8ee6e73aa614935d37eb7))
+
 ## [1.0.1](https://github.com/WebProject-xyz/codeception-module-openapi-server-mock/compare/1.0.0...1.0.1) (2026-04-24)
 
 ### Bug Fixes
