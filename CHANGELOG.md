@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/WebProject-xyz/codeception-module-openapi-server-mock/compare/1.0.2...1.0.3) (2026-09-04)
+
+### Bug Fixes
+
+* **deps:** update ci workflow ([1d5038c](https://github.com/WebProject-xyz/codeception-module-openapi-server-mock/commit/1d5038c50f9430928a75cac9ab259a8b0e6012b2))
+
 ## [1.0.2](https://github.com/WebProject-xyz/codeception-module-openapi-server-mock/compare/1.0.1...1.0.2) (2026-07-03)
 
 ### Bug Fixes
