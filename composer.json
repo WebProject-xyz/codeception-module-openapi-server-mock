@@ -24,7 +24,7 @@
     "friendsofphp/php-cs-fixer": "^3.95.11",
     "phpro/grumphp": "^2.22.0",
     "phpstan/phpstan": "^2.2.4",
-    "webproject-xyz/codeception-module-ai-reporter": "^1.2.1"
+    "webproject-xyz/codeception-module-ai-reporter": "^2.0.0"
   },
   "suggest": {
     "codeception/module-phpbrowser": "^4.0.0",
